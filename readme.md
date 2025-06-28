@@ -1,4 +1,23 @@
-# Telegram Rust Nix Template
+<p align="center">
+    <img src=".github/assets/header.png" alt="Uzinfocom's {Jobful}">
+</p>
+
+<p align="center">
+    <h3 align="center">Uzinfocom's Infrastructure configurations for all instances.</h3>
+</p>
+
+<p align="center">
+    <img align="center" src="https://img.shields.io/github/languages/top/uzinfocom-org/jobful?style=flat&logo=nixos&logoColor=ffffff&labelColor=242424&color=242424" alt="Top Used Language">
+    <a href="https://github.com/uzinfocom-org/jobful/actions/workflows/test.yml"><img align="center" src="https://img.shields.io/github/actions/workflow/status/uzinfocom-org/jobful/test.yml?style=flat&logo=github&logoColor=ffffff&labelColor=242424&color=242424" alt="Test CI"></a>
+</p>
+
+## About
+
+This repository is intended to keep all configurations of instandces ran by Uzinfocom's Open Source Team. Configurations contain both service and environmental implications.
+
+## Features
+
+- Vacancies
 
 This is a starter pack for Nix friendly Telegram bot project on Rust ecosystem provided to you by [Bleur Stack]
 developers. The project uses fenix to fetch Rust toolchain from rustup catalogue and unfortunately, it fetches and patches
@@ -63,7 +82,7 @@ Or, you can build your project via nix which will do all the dirty work for you.
 nix build
 
 # Executable binary is available at:
-./result/bin/tempbot
+./result/bin/jobful
 ```
 
 ## Deploying (works only for flake based NixOS)
@@ -80,7 +99,7 @@ In your configuration, add your project repository to `inputs`.
     # ...
 
     # Let's imagine name of this project as `tempbot`
-    tempbot.url = "github:somewhere/tempbot";
+    jobful.url = "github:uzinfocom-org/jobful";
   };
 }
 ```
@@ -98,7 +117,7 @@ Ok, now we have your project in repository list and now, we need to make use of 
     # Imagine here your existing imports
 
     # Now import your project module like this
-    inputs.tempbot.nixosModules.bot
+    inputs.jobful.nixosModules.bot
   ];
 };
 ```
@@ -116,13 +135,7 @@ need something else. In your `configuration.nix` or wherever of your configurati
 
 ```nix
 {
-  # WARNING! `tempbot-bot` shown below changes
-  # depending on package name in your Cargo.toml
-  # Basically it's generated like that:
-  # => "{package.name}-bot"
-  # Replace package.name in your Cargo.toml with
-  # {package.name}
-  services.tempbot-bot = {
+  services.jobful-bot = {
     # Enable systemd service
     enable = true;
 
@@ -141,7 +154,7 @@ need something else. In your `configuration.nix` or wherever of your configurati
       proxy = "caddy";
 
       # Domain to pass to web server (caddy or nginx)
-      domain = "mybot.mysite.uz";
+      domain = "jobful.something.uz";
 
       # Port to host http server and tell web proxy
       # to were bind that proxy
@@ -223,6 +236,19 @@ There are bunch of telegram bots that are using this template and are deployed t
 There's been cases when I wanted to reproduce totally different behaviors in development environment and
 production build. This occurs quite a lot lately for some reason and because of that, I tend to keep
 both shell.nix and default.nix to don't mix things up.
+
+## Thanks
+
+- [Template](https://github.com/bleur-org) - Started with this template
+- [Orzklv](https://github.com/orzklv) - For making this happen
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](license) file for details.
+
+<p align="center">
+    <img src=".github/assets/footer.png" alt="Uzinfocom's {Jobdul}">
+</p>
 
 [Bleur Stack]: https://github.com/bleur-org
 [available default options]: #available-default-options

@@ -4,6 +4,9 @@
 # Cargo builds
 /target
 
+# Direnv
+/.direnv
+
 # Environmental values
 .env
 

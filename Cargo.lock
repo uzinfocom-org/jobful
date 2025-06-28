@@ -983,6 +983,23 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
 
 [[package]]
+name = "jobful"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "log",
+ "orzklv",
+ "pretty_env_logger",
+ "serde",
+ "serde_json",
+ "teloxide",
+ "thiserror 2.0.11",
+ "tokio",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "js-sys"
 version = "0.3.77"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1763,23 +1780,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "tempbot"
-version = "0.1.0"
-dependencies = [
- "clap",
- "log",
- "orzklv",
- "pretty_env_logger",
- "serde",
- "serde_json",
- "teloxide",
- "thiserror 2.0.11",
- "tokio",
- "url",
- "uuid",
 ]
 
 [[package]]

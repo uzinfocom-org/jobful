@@ -1,10 +1,10 @@
 use clap::Parser;
-use std::error::Error;
-use teloxide::{prelude::*, update_listeners::webhooks};
-use tempbot::bot::dispatch;
-use tempbot::clog;
-use tempbot::config::{Config, Field};
-use tempbot::{Cli, Commands};
+use jobful::bot::dispatch;
+use jobful::clog;
+use jobful::bot::dispatch;
+use jobful::clog;
+use jobful::config::{Config, Field};
+use jobful::{Cli, Commands};
 
 /// # Welcome to our Telegram Bot Template
 ///
