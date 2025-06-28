@@ -3,27 +3,22 @@
 </p>
 
 <p align="center">
-    <h3 align="center">Uzinfocom's Infrastructure configurations for all instances.</h3>
+    <h3 align="center">Uzinfocom's Job & Vacancy micromanagement telegram bot.</h3>
 </p>
 
 <p align="center">
-    <img align="center" src="https://img.shields.io/github/languages/top/uzinfocom-org/jobful?style=flat&logo=nixos&logoColor=ffffff&labelColor=242424&color=242424" alt="Top Used Language">
+    <img align="center" src="https://img.shields.io/github/languages/top/uzinfocom-org/jobful?style=flat&logo=rust&logoColor=ffffff&labelColor=242424&color=242424" alt="Top Used Language">
     <a href="https://github.com/uzinfocom-org/jobful/actions/workflows/test.yml"><img align="center" src="https://img.shields.io/github/actions/workflow/status/uzinfocom-org/jobful/test.yml?style=flat&logo=github&logoColor=ffffff&labelColor=242424&color=242424" alt="Test CI"></a>
 </p>
 
 ## About
 
-This repository is intended to keep all configurations of instandces ran by Uzinfocom's Open Source Team. Configurations contain both service and environmental implications.
+This is a telegram bot bootstrapped with [Bleur Stack] and written on Rust & Nix that helps our HRs to publish and announce vacancy posters and announcements throughout Floss Network. It was craeted in order to feed job-hungry and talented youth with possibilities.
 
 ## Features
 
-- Vacancies
-
-This is a starter pack for Nix friendly Telegram bot project on Rust ecosystem provided to you by [Bleur Stack]
-developers. The project uses fenix to fetch Rust toolchain from rustup catalogue and unfortunately, it fetches and patches
-once (untill you clean cache) the whole rustup toolchain and THEN build the program or run.
-
-> Please, after bootstrapping, rename / change all `example` or `template` keywords in template files.
+- Automatic announcement management
+- Details about our HR and further vacancy listings.
 
 ## Development
 
@@ -151,7 +146,7 @@ need something else. In your `configuration.nix` or wherever of your configurati
 
       # From given options (caddy or nginx), choose
       # web server to deploy bot via an http server
-      proxy = "caddy";
+      proxy = "nginx";
 
       # Domain to pass to web server (caddy or nginx)
       domain = "jobful.something.uz";
@@ -168,7 +163,7 @@ This is very basic and minimal example, you can tune other things like user who'
 
 ### Available default options
 
-These are options that are available by default, just put services."${manifest.name}-bot" before the keys:
+These are options that are available by default, just put services."jobful-bot" before the keys:
 
 #### `enable` (required) -> bool
 
@@ -224,10 +219,7 @@ The packaged telegram bot with pre-compiled binaries and whatever. Defaulted to 
 
 ## Working productions
 
-There are bunch of telegram bots that are using this template and are deployed to which you may refer as working examples:
-
-- [Xinux Assistant](https://t.me/xinuxmgrbot) - [GitHub](https://github.com/xinux-org/telegram) / [Deployed At](https://github.com/kolyma-labs/instances/blob/main/nixos/kolyma-2/services/xinux.nix)
-- [Rust Uzbekistan Assistant](https://t.me/rustaceanbot) - [GitHub](https://github.com/rust-lang-uz/telegram) / [Deployed At](https://github.com/kolyma-labs/instances/blob/main/nixos/kolyma-2/services/rustina.nix)
+This telegram bot is currently deployed at Kolyma's Datacenter and Infrastructure and powered by Uzinfocom's Open Source Team.
 
 ## FAQ
 
