@@ -1,10 +1,12 @@
 use clap::Parser;
 use jobful::bot::dispatch;
 use jobful::clog;
-use jobful::bot::dispatch;
-use jobful::clog;
 use jobful::config::{Config, Field};
 use jobful::{Cli, Commands};
+use std::error::Error;
+use teloxide::prelude::LoggingErrorHandler;
+use teloxide::update_listeners::webhooks;
+use teloxide::{dptree, Bot};
 
 /// # Welcome to our Telegram Bot Template
 ///
@@ -37,7 +39,7 @@ use jobful::{Cli, Commands};
 async fn main() -> Result<(), Box<dyn Error>> {
     // Starter packs
     pretty_env_logger::init();
-    log::info!("Starting Bot: {}", env!("CARGO_PKG_NAME"););
+    log::info!("Starting Bot: {}", env!("CARGO_PKG_NAME"));
 
     // Global instances
     let mut config = Config::default();
