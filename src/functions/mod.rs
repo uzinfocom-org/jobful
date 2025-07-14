@@ -29,9 +29,9 @@ pub async fn commands(
     Ok(())
 }
 
-pub async fn triggers(bot: Bot, msg: Message) -> Result<(), Box<dyn Error + Send + Sync>> {
+pub async fn triggerer(bot: Bot, msg: Message) -> Result<(), Box<dyn Error + Send + Sync>> {
     if let Some(thread) = msg.thread_id {
-        if msg.chat.id.0 == -1001174263940 && thread.0.0 == 178654 {
+        if msg.chat.id.0 == -1001174263940 && thread.0 .0 == 178654 {
             // Delete anything except image
             if msg.photo().is_some() || msg.document().is_some() {
                 return Ok(());
@@ -56,16 +56,6 @@ pub async fn triggers(bot: Bot, msg: Message) -> Result<(), Box<dyn Error + Send
             }
         }
     }
-
-    // if let Some(new_chat_members) = msg.new_chat_members() {
-    //     let bot_id = bot.get_me().send().await?.id;
-
-    //     if !new_chat_members.iter().any(|user| user.id == bot_id)
-    //         && (msg.chat.is_supergroup() || msg.chat.is_group())
-    //     {
-    //         crate::functions::trigger(&bot, &msg).await?;
-    //     }
-    // }
 
     Ok(())
 }

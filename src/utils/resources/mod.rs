@@ -6,8 +6,6 @@ use prelude::*;
 use reqwest::Client;
 use rust_fuzzy_search::fuzzy_search_sorted;
 
-// https://uzinfocom.uz/api/v1/company/vacancies/?page=1&page_size=100
-// https://uzinfocom.uz/company/career/<slug>
 const BASE: &str = "https://uzinfocom.uz";
 static APP_USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"),);
 
@@ -47,7 +45,7 @@ impl Resources {
         let data: Jobsonse = match match self
             .client
             .get(format!(
-                "{BASE}/api/v1/company/vacancies/?format=json&page=1&page_size=100"
+                "{BASE}/api/v1/company/vacancies/?format=json&page=1&page_size=1000"
             ))
             .send()
             .await

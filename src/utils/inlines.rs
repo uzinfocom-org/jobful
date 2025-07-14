@@ -11,17 +11,6 @@ Siz hozir inlayn rejim ishga tushurdingiz. Bu xususiyat yordamida siz Arch Linux
 <code>@xinuxmgr &lt;distributiv&gt; &lt;nomi&gt;</code>
 "#;
 
-pub static NOT_ENOUGH: &str = r#"
-<b>Foydalanuvchi, siz yetarlicha parametrlar kiritmadingiz!</b>
-
-Iltimos, quyidagi parametrlarni kiriting:
-&lt;distributiv&gt; &lt;paket nomi&gt;
-"#;
-
-pub static TOO_MANY: &str = r#"
-<b>Foydalanuvchi, siz keraklidan ko'p parametrlar kiritdingiz!</b>
-"#;
-
 pub static INTERNAL_ERROR: &str = r#"
 <b>API dan ma'lumot olishda xatolik yuz berdi!</b>
 Iltimos, qayta yoki keyinroq urinib ko'ring!
@@ -29,7 +18,7 @@ Iltimos, qayta yoki keyinroq urinib ko'ring!
 
 pub static NOT_FOUND: &str = r#"
 <b>Ushbu so'rovga oid natija mavjud emas!</b>
-Iltimos, boshqa ism bilan yoki keyinroq yana bir bor urinib ko'ring!
+Iltimos, boshqa nom bilan yoki keyinroq yana bir bor urinib ko'ring!
 "#;
 
 pub fn preview_generate(d: &Job) -> String {

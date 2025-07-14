@@ -36,7 +36,7 @@ pub fn handler() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync + 'sta
                 .endpoint(functions::commands),
         )
         // Rest
-        .branch(Update::filter_message().endpoint(functions::triggers))
+        .branch(Update::filter_message().endpoint(functions::triggerer))
 }
 
 pub fn dispatch(
@@ -47,7 +47,7 @@ pub fn dispatch(
         .dependencies(deps) // dptree::deps![topics, pkgs]
         // If no handler succeeded to handle an update, this closure will be called
         .default_handler(|upd| async move {
-            log::warn!("Unhandled update: {:?}", upd);
+            log::warn!("Unhandled update: {upd:?}");
         })
         // If the dispatcher fails for some reason, execute this handler
         .error_handler(LoggingErrorHandler::with_custom_text(

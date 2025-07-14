@@ -93,7 +93,6 @@ In your configuration, add your project repository to `inputs`.
   inputs = {
     # ...
 
-    # Let's imagine name of this project as `tempbot`
     jobful.url = "github:uzinfocom-org/jobful";
   };
 }
@@ -177,11 +176,11 @@ Telegram bot token to pass to telegram bot, it should be a file that can be plac
 {
   sops.secrets = {
     "mytoken" = {
-      owner = config.services.tempbot-bot.user;
+      owner = config.services.jobful-bot.user;
     };
   };
 
-  services.tempbot-bot.token = config.sops.secrets."mytoken".path;
+  services.jobful-bot.token = config.sops.secrets."mytoken".path;
 }
 ```
 

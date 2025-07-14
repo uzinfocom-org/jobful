@@ -8,9 +8,9 @@ use jobful::{Cli, Commands};
 use std::error::Error;
 use teloxide::prelude::LoggingErrorHandler;
 use teloxide::update_listeners::webhooks;
-use teloxide::{Bot, dptree};
+use teloxide::{dptree, Bot};
 
-/// # Welcome to our Telegram Bot Template
+/// # Welcome to our Jobful Telegram Bot
 ///
 /// Before you start doing anything, make sure to read this instruction at least once,
 /// so you know later what where to add/change/remove.

@@ -1,5 +1,5 @@
 {
-  description = "A beginning of an awesome project bootstrapped with github:bleur-org/templates";
+  description = "Telegram bot for HR department of Uzinfocom";
 
   inputs = {
     # Stable for keeping thins clean
@@ -20,7 +20,7 @@
   }:
   # @ inputs
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs { inherit system; };
+      pkgs = import nixpkgs {inherit system;};
     in {
       # Nix script formatter
       formatter = pkgs.alejandra;
