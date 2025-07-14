@@ -15,7 +15,7 @@ pub enum JobfulErrors {
     // InvalidHeader { expected: String, found: String },
     #[error("bitch, where's da http client")]
     NoHTTPClient,
-    #[error("nigga, no data or client")]
+    #[error("nigga, no data or client or idk...")]
     MissingDependency,
     #[error("unknown jobless error")]
     Unknown,

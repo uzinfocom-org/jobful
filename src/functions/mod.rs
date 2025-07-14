@@ -6,11 +6,12 @@ pub mod inline;
 pub mod start;
 
 pub use inline::inline;
+use orzklv::telegram::topic::Topics;
 
-use crate::bot::Command;
 use crate::functions;
+use crate::{bot::Command, utils::resources::Resources};
 use std::error::Error;
-use teloxide::{prelude::*, types::*};
+use teloxide::{dispatching::dialogue::GetChatId, prelude::*, types::*};
 
 pub async fn commands(
     bot: Bot,
@@ -29,31 +30,17 @@ pub async fn commands(
     Ok(())
 }
 
-pub async fn triggerer(bot: Bot, msg: Message) -> Result<(), Box<dyn Error + Send + Sync>> {
-    if let Some(thread) = msg.thread_id {
-        if msg.chat.id.0 == -1001174263940 && thread.0 .0 == 178654 {
-            // Delete anything except image
-            if msg.photo().is_some() || msg.document().is_some() {
-                return Ok(());
-            }
-
-            // Yup, ditch it
-            return match bot.delete_message(msg.chat.id, msg.id).await {
-                Ok(_) => Ok(()),
-                Err(_) => Ok(()),
-            };
-        }
-    }
-
+pub async fn triggerer(
+    bot: Bot,
+    msg: Message,
+    resources: Resources,
+) -> Result<(), Box<dyn Error + Send + Sync>> {
     if let Some(ref user) = msg.from {
-        if let Some(username) = user.username.clone() {
-            if username == "Channel_Bot" {
-                // Try to delete message and ignore error
-                match bot.delete_message(msg.chat.id, msg.id).await {
-                    Ok(_) => {}
-                    Err(_) => {}
-                }
-            }
+        if resources.is_admin(&user.id) {
+            let _ = bot
+                .send_message_tf(msg.chat.chat_id().unwrap(), "<b>Siz adminlar ro'yxatida ekansiz!</b>\n\nHabar tayyor bo'lganda, shu habarga reply qilib /publish yozvoring va qolganida yordamlashib yuboraman!", &msg)
+                .parse_mode(ParseMode::Html)
+                .await;
         }
     }
 

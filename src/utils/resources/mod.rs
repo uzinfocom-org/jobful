@@ -5,6 +5,7 @@ use crate::{JobfulErrors, Result};
 use prelude::*;
 use reqwest::Client;
 use rust_fuzzy_search::fuzzy_search_sorted;
+use teloxide::types::UserId;
 
 const BASE: &str = "https://uzinfocom.uz";
 static APP_USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_PKG_VERSION"),);
@@ -12,6 +13,7 @@ static APP_USER_AGENT: &str = concat!(env!("CARGO_PKG_NAME"), "/", env!("CARGO_P
 #[derive(Clone, Debug)]
 pub struct Resources {
     data: Jobs,
+    admins: Vec<UserId>,
     client: Client,
 }
 
@@ -41,6 +43,10 @@ impl Resources {
             .collect()
     }
 
+    pub fn is_admin(&self, user: &UserId) -> bool {
+        self.admins.contains(user)
+    }
+
     pub async fn update(mut self) -> Result<()> {
         let data: Jobsonse = match match self
             .client
@@ -59,6 +65,7 @@ impl Resources {
 
         self = Self {
             client: self.client,
+            admins: self.admins,
             data: data.results,
         };
 
@@ -66,10 +73,26 @@ impl Resources {
     }
 }
 
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct ResourcesBuilder {
     data: Option<Jobs>,
+    admins: Option<Vec<UserId>>,
     client: Option<Client>,
+}
+
+impl Default for ResourcesBuilder {
+    fn default() -> Self {
+        Self {
+            data: None,
+            admins: Some(
+                prelude::ADMINS
+                    .iter()
+                    .map(|a| UserId(a.parse().unwrap()))
+                    .collect(),
+            ),
+            client: None,
+        }
+    }
 }
 
 impl ResourcesBuilder {
@@ -80,6 +103,7 @@ impl ResourcesBuilder {
 
         Ok(Self {
             data: self.data,
+            admins: self.admins,
             client: Some(client),
         })
     }
@@ -104,6 +128,7 @@ impl ResourcesBuilder {
 
         Ok(Self {
             data: Some(data),
+            admins: self.admins,
             client: Some(client),
         })
     }
@@ -119,6 +144,15 @@ impl ResourcesBuilder {
             None => return Err(JobfulErrors::MissingDependency),
         };
 
-        Ok(Resources { data, client })
+        let admins = match self.admins {
+            Some(c) => c,
+            None => return Err(JobfulErrors::MissingDependency),
+        };
+
+        Ok(Resources {
+            data,
+            admins,
+            client,
+        })
     }
 }

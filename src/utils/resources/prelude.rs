@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+pub static ADMINS: &[&str] = &["7598454972"];
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Specialization {
     pub id: u32,
