@@ -12,3 +12,6 @@
 
 # Running daemon PID
 .daemon
+
+# Telegram bot token
+.telegram

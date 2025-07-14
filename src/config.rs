@@ -1,6 +1,6 @@
+use Field::{Domain, Token};
 use std::fmt::{Display, Formatter};
 use std::path::PathBuf;
-use Field::{Domain, Token};
 
 pub enum ConfigError {
     NonExistent(String),
@@ -10,8 +10,8 @@ pub enum ConfigError {
 impl Display for ConfigError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            ConfigError::ReadError(e) => write!(f, "Error while reading config: {}", e),
-            ConfigError::NonExistent(e) => write!(f, "File is probably non existent: {}", e),
+            ConfigError::ReadError(e) => write!(f, "Error while reading config: {e}"),
+            ConfigError::NonExistent(e) => write!(f, "File is probably non existent: {e}"),
         }
     }
 }

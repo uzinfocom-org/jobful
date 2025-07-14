@@ -14,16 +14,29 @@ pub enum Command {
 
     /// Starting point of the bot
     Start,
+
+    /// About da bot
+    About,
+
+    /// Way to contact with HR
+    Contact,
+
+    /// Way to check personal ID
+    Check,
 }
 
 pub fn handler() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync + 'static>> {
     dptree::entry()
+        // Inline
+        .branch(Update::filter_inline_query().endpoint(functions::inline))
         // Commands
         .branch(
             Update::filter_message()
                 .filter_command::<Command>()
                 .endpoint(functions::commands),
         )
+        // Rest
+        .branch(Update::filter_message().endpoint(functions::triggers))
 }
 
 pub fn dispatch(

@@ -2,11 +2,13 @@ use clap::Parser;
 use jobful::bot::dispatch;
 use jobful::clog;
 use jobful::config::{Config, Field};
+use jobful::error::beautiful_exit;
+use jobful::utils::resources::Resources;
 use jobful::{Cli, Commands};
 use std::error::Error;
 use teloxide::prelude::LoggingErrorHandler;
 use teloxide::update_listeners::webhooks;
-use teloxide::{dptree, Bot};
+use teloxide::{Bot, dptree};
 
 /// # Welcome to our Telegram Bot Template
 ///
@@ -43,9 +45,17 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Global instances
     let mut config = Config::default();
+    let resources = Resources::builder()
+        .httpclient()
+        .unwrap_or_else(|e| beautiful_exit(e.to_string()))
+        .initiate()
+        .await
+        .unwrap_or_else(|e| beautiful_exit(e.to_string()))
+        .build()
+        .unwrap_or_else(|e| beautiful_exit(e.to_string()));
 
     // Dependencies
-    let deps = dptree::deps![];
+    let deps = dptree::deps![resources];
 
     // Args
     let args = Cli::parse();
@@ -75,7 +85,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 Err(e) => panic!("{}", e),
             };
 
-            match config.set(format!("https://{}", domain), Field::Domain) {
+            match config.set(format!("https://{domain}"), Field::Domain) {
                 Ok(_) => clog("Config", "Successfully set the domain variable"),
                 Err(e) => panic!("{}", e),
             }
@@ -108,7 +118,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
             match std::env::var("WEBHOOK_URL") {
                 Ok(v) => {
-                    clog("Mode", &format!("starting webhook on {}", v));
+                    clog("Mode", &format!("starting webhook on {v}"));
 
                     let port: u16 = std::env::var("PORT")
                         .unwrap_or("8445".to_string())

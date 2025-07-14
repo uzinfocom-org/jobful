@@ -3,7 +3,12 @@
 
 pub mod bot;
 pub mod config;
+pub mod error;
 pub mod functions;
+pub mod hooks;
+pub mod utils;
+
+pub use error::{JobfulErrors, Result};
 
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
