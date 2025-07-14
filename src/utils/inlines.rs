@@ -1,6 +1,8 @@
 use orzklv::telegram::keyboard::Keyboard;
 use teloxide::types::*;
 
+use super::resources::prelude::Job;
+
 pub static NO_INPUT: &str = r#"
 <b>Salom foydalanuvchi!</b>
 
@@ -30,62 +32,40 @@ pub static NOT_FOUND: &str = r#"
 Iltimos, boshqa ism bilan yoki keyinroq yana bir bor urinib ko'ring!
 "#;
 
-// pub fn view_generate(d: &Data) -> String {
-//     let d = d.clone();
-//     let mut result = String::new();
+pub fn preview_generate(d: &Job) -> String {
+    format!(
+        "{} | {} | {} | {}",
+        d.employ_type, d.experience, d.location, d.specialization.name
+    )
+}
 
-//     result.push_str(&format!("<b>Nomi:</b> {}\n", d.name));
+pub fn view_generate(d: &Job) -> String {
+    let mut result = String::new();
 
-//     result.push_str(&format!("<b>Versiyasi:</b> <code>{}</code>\n", d.version));
+    result.push_str(&format!("<b>Ish:</b> {}\n", d.title));
+    result.push_str(&format!("<b>Bandlik:</b> {}\n", d.employ_type));
+    result.push_str(&format!("<b>Ofis:</b> {}\n", d.location));
+    result.push_str(&format!("<b>Yo'nalish:</b> {}\n", d.specialization.name));
+    result.push_str(&format!(
+        "<b>Kerakli Tajriba:</b> <code>{} yil</code>\n",
+        d.experience
+    ));
 
-//     result.push_str(&format!(
-//         "<b>Ma'lutot:</b> {}\n",
-//         d.description.unwrap_or("Ma'lumot yo'q".to_string())
-//     ));
+    result
+}
 
-//     if d.repo.is_some() {
-//         result.push_str(&format!(
-//             "<b>Repozitoriya:</b> {}\n",
-//             d.repo.clone().unwrap()
-//         ));
-//     }
+pub fn kb_generate(d: &Job) -> InlineKeyboardMarkup {
+    let mut keyboard = Keyboard::new();
 
-//     result.push_str("🔌 <b>O'rnatish uchun:</b> \n");
-
-//     match d.repo {
-//         Some(_) => {
-//             result.push_str(&format!("<code>pacman -S {}</code>\n", d.name));
-//         }
-//         None => {
-//             result.push_str(&format!("<code>paru -S {}</code>\n", d.name));
-//         }
-//     }
-
-//     result
-// }
-
-// pub fn kb_generate(d: &Data) -> InlineKeyboardMarkup {
-//     let d = d.clone();
-//     let mut keyboard = Keyboard::new();
-
-//     keyboard
-//         .url(
-//             "Web sahifasi",
-//             match d.types {
-//                 Type::Aur => format!("https://aur.archlinux.org/packages/{}", d.name),
-//                 Type::Std => format!(
-//                     "https://archlinux.org/packages/{}/{}/{}",
-//                     d.repo.unwrap(),
-//                     d.arch,
-//                     d.name
-//                 ),
-//             }
-//             .as_str(),
-//         )
-//         .unwrap()
-// }
+    keyboard
+        .url(
+            "Ko'proq",
+            &format!("https://uzinfocom.uz/company/career/{}", d.slug),
+        )
+        .unwrap()
+}
 
 pub fn err_keyboard() -> InlineKeyboardMarkup {
     let mut keyboard = Keyboard::new();
-    keyboard.switch_inline_current("Qayta urinib ko'ramizmi?", "arch linux")
+    keyboard.switch_inline_current("Qayta urinib ko'ramizmi?", "Data")
 }

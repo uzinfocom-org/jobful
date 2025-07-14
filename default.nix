@@ -55,6 +55,7 @@ in
 
       # Other compile time dependencies
       openssl
+      pkg-config
       # libressl
     ];
 

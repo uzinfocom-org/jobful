@@ -4,10 +4,7 @@ pub mod prelude;
 use crate::{JobfulErrors, Result};
 use prelude::*;
 use reqwest::Client;
-use nucleo_picker::{
-    render::StrRenderer,
-    Picker,
-};
+use rust_fuzzy_search::fuzzy_search_sorted;
 
 // https://uzinfocom.uz/api/v1/company/vacancies/?page=1&page_size=100
 // https://uzinfocom.uz/company/career/<slug>
@@ -25,12 +22,26 @@ impl Resources {
         ResourcesBuilder::default()
     }
 
-    // pub fn get_jobs<T>(param: T) -> ()
-    // where
-    //     T: ToString,
-    // {
-    //   let mut picker = Picker::new(StrRenderer);
-    // }
+    fn get_titles(&self) -> Vec<&str> {
+        self.data.iter().map(|d| d.title.as_ref()).collect()
+    }
+
+    pub fn search<T>(&self, param: T, amount: usize) -> Jobs
+    where
+        T: AsRef<str>,
+    {
+        fuzzy_search_sorted(param.as_ref(), self.get_titles().as_ref())
+            .into_iter()
+            .map(|j| {
+                self.data
+                    .iter()
+                    .find(|d| d.title == j.0)
+                    .unwrap()
+                    .to_owned()
+            })
+            .take(amount)
+            .collect()
+    }
 
     pub async fn update(mut self) -> Result<()> {
         let data: Jobsonse = match match self

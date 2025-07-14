@@ -1,3 +1,6 @@
+#![allow(unused_macros)]
+#![allow(unused_imports)]
+
 use crate::utils::{inlines::*, resources::Resources};
 use std::error::Error;
 use teloxide::{prelude::*, types::*};
@@ -7,25 +10,23 @@ macro_rules! return_err_answer {
         return {
             $bot.answer_inline_query(
                 $q.id,
-                vec![
-                    InlineQueryResultArticle::new(
-                        uuid::Uuid::new_v4(),
-                        $title,
-                        InputMessageContent::Text(
-                            InputMessageContentText::new($msg)
-                                .parse_mode(ParseMode::Html)
-                                .link_preview_options(LinkPreviewOptions {
-                                    is_disabled: true,
-                                    url: None,
-                                    prefer_small_media: false,
-                                    prefer_large_media: false,
-                                    show_above_text: false,
-                                }),
-                        ),
-                    )
-                    .reply_markup(err_keyboard())
-                    .into(),
-                ],
+                vec![InlineQueryResultArticle::new(
+                    uuid::Uuid::new_v4(),
+                    $title,
+                    InputMessageContent::Text(
+                        InputMessageContentText::new($msg)
+                            .parse_mode(ParseMode::Html)
+                            .link_preview_options(LinkPreviewOptions {
+                                is_disabled: true,
+                                url: None,
+                                prefer_small_media: false,
+                                prefer_large_media: false,
+                                show_above_text: false,
+                            }),
+                    ),
+                )
+                .reply_markup(err_keyboard())
+                .into()],
             )
             .await?;
             Ok(())
@@ -40,18 +41,37 @@ pub async fn inline(
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
     let parsed: String = q.query.clone();
 
-    let neeegaaaa = resources.update().await;
+    match parsed.len() {
+        0 => return_err_answer!(bot, q, "Qidirishni boshlang!", NO_INPUT),
+        1.. => {}
+    }
 
-    println!("{:?}", neeegaaaa);
-
-    // let parsed = parsed.split_whitespace().collect::<Vec<&str>>();
-
-    // match parsed.len() {
-    //     0 => return_err_answer!(bot, q, "Qidirishni boshlang!", NO_INPUT),
-    //     1 => return_err_answer!(bot, q, "Parametrlar yetarli emas!", NOT_ENOUGH),
-    //     2 => {}
-    //     3.. => return_err_answer!(bot, q, "Parametrlar haddan ko'p!", TOO_MANY),
-    // }
+    bot.answer_inline_query(
+        q.id,
+        resources.search(parsed, 5).iter().map(|d| {
+            InlineQueryResult::Article(
+                InlineQueryResultArticle::new(
+                    uuid::Uuid::new_v4(),
+                    d.title.clone(),
+                    InputMessageContent::Text(
+                        InputMessageContentText::new(view_generate(d))
+                            .parse_mode(ParseMode::Html)
+                            .link_preview_options(LinkPreviewOptions {
+                                is_disabled: true,
+                                url: None,
+                                prefer_small_media: false,
+                                prefer_large_media: false,
+                                show_above_text: false,
+                            }),
+                    ),
+                )
+                .description(preview_generate(d))
+                .reply_markup(kb_generate(d)),
+            )
+        }),
+    )
+    .send()
+    .await?;
 
     // match parsed[0] {
     //     "arch" => {
