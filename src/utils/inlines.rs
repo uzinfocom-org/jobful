@@ -6,14 +6,9 @@ use super::resources::prelude::Job;
 pub static NO_INPUT: &str = r#"
 <b>Salom foydalanuvchi!</b>
 
-Siz hozir inlayn rejim ishga tushurdingiz. Bu xususiyat yordamida siz Arch Linux yoki NixOS paketlarini qidirishingiz va chatda ulashishingiz mumkin. Qidirishni boshlash uchun, quyida keltirilgan misol tariqasida yozing:
+Siz hozir inlayn rejim ishga tushurdingiz. Bu xususiyat yordamida siz Uzinfocom tomonidan e'lon qilingan vakansiyalar qidirishingiz mumkin. Qidirishni boshlash uchun, quyida keltirilgan misol tariqasida yozing:
 
-<code>@xinuxmgr &lt;distributiv&gt; &lt;nomi&gt;</code>
-"#;
-
-pub static INTERNAL_ERROR: &str = r#"
-<b>API dan ma'lumot olishda xatolik yuz berdi!</b>
-Iltimos, qayta yoki keyinroq urinib ko'ring!
+<code>@@uzinfojobful_bot &lt;biron so'z&gt;</code>
 "#;
 
 pub static NOT_FOUND: &str = r#"

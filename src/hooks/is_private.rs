@@ -10,7 +10,7 @@ static TEXT: &str = "⚠️ <b>Bu komanda faqat shaxsiy chat uchun!</b>";
 pub fn keyboard() -> InlineKeyboardMarkup {
     let mut keyboard: Keyboard = Keyboard::new();
     keyboard
-        .url("Shaxsiy Chat", "https://t.me/xinuxmgrbot")
+        .url("Shaxsiy Chat", "https://t.me/uzinfojobful_bot")
         .unwrap()
 }
 
