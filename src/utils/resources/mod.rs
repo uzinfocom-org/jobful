@@ -2,6 +2,8 @@
 pub mod builder;
 pub mod prelude;
 
+use std::time::SystemTime;
+
 use crate::{JobfulErrors, Result};
 use builder::ResourcesBuilder;
 use prelude::*;
@@ -17,6 +19,7 @@ pub struct Resources {
     data: Jobs,
     admins: Vec<UserId>,
     client: Client,
+    timestamp: SystemTime,
 }
 
 impl Resources {
@@ -49,7 +52,23 @@ impl Resources {
         self.admins.contains(user)
     }
 
-    pub async fn update(mut self) -> Result<()> {
+    pub fn outdated(&self) -> bool {
+        match SystemTime::now().duration_since(self.timestamp) {
+            Ok(e) => {
+                if e.as_secs() > (5 * 60) {
+                    return true;
+                }
+
+                false
+            }
+            Err(_) => false,
+        }
+    }
+
+    pub async fn update(mut self) -> Result<Self> {
+        // Lock-up before other threads start being racist
+        self.timestamp = SystemTime::now();
+
         let data: Jobsonse = match match self
             .client
             .get(format!(
@@ -65,12 +84,15 @@ impl Resources {
             Err(e) => return Err(JobfulErrors::Reqwest(e)),
         };
 
+        // Now apply the changes and roll-up timestap once again
         self = Self {
             client: self.client,
             admins: self.admins,
             data: data.results,
+            timestamp: SystemTime::now(),
         };
 
-        Ok(())
+        // Return self for ownership preservation
+        Ok(self)
     }
 }

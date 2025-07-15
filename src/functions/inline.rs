@@ -36,7 +36,7 @@ macro_rules! return_err_answer {
 
 pub async fn inline(
     bot: Bot,
-    resources: Resources,
+    mut resources: Resources,
     q: InlineQuery,
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
     let parsed: String = q.query.clone();
@@ -44,6 +44,10 @@ pub async fn inline(
     match parsed.len() {
         0 => return_err_answer!(bot, q, "Qidirishni boshlang!", NO_INPUT),
         1.. => {}
+    }
+
+    if resources.outdated() {
+        resources = resources.clone().update().await.unwrap_or(resources);
     }
 
     let results = resources.search(parsed, 5);

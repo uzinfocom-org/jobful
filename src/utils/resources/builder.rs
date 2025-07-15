@@ -3,6 +3,7 @@ use super::{prelude, prelude::*};
 use super::{APP_USER_AGENT, BASE};
 use crate::{JobfulErrors, Result};
 use reqwest::Client;
+use std::time::SystemTime;
 use teloxide::types::UserId;
 
 #[derive(Clone)]
@@ -10,11 +11,13 @@ pub struct ResourcesBuilder {
     data: Option<Jobs>,
     admins: Option<Vec<UserId>>,
     client: Option<Client>,
+    timestamp: Option<SystemTime>,
 }
 
 impl Default for ResourcesBuilder {
     fn default() -> Self {
         Self {
+            timestamp: None,
             data: None,
             admins: Some(
                 prelude::ADMINS
@@ -37,6 +40,7 @@ impl ResourcesBuilder {
             data: self.data,
             admins: self.admins,
             client: Some(client),
+            timestamp: self.timestamp,
         })
     }
 
@@ -62,6 +66,7 @@ impl ResourcesBuilder {
             data: Some(data),
             admins: self.admins,
             client: Some(client),
+            timestamp: Some(SystemTime::now()),
         })
     }
 
@@ -81,10 +86,16 @@ impl ResourcesBuilder {
             None => return Err(JobfulErrors::MissingDependency),
         };
 
+        let timestamp = match self.timestamp {
+            Some(t) => t,
+            None => return Err(JobfulErrors::MissingDependency),
+        };
+
         Ok(Resources {
             data,
             admins,
             client,
+            timestamp,
         })
     }
 }
