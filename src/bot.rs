@@ -8,7 +8,7 @@ use teloxide::{
 #[derive(BotCommands, Clone, Debug)]
 #[command(rename_rule = "lowercase", parse_with = "split")]
 #[command(description = "These are the commands that I can understand:")]
-pub enum Command {
+pub enum Commands {
     /// List existing commands
     Help,
 
@@ -23,6 +23,9 @@ pub enum Command {
 
     /// Way to check personal ID
     Check,
+
+    /// Publishing replied post
+    Publish,
 }
 
 pub fn handler() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync + 'static>> {
@@ -32,7 +35,7 @@ pub fn handler() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync + 'sta
         // Commands
         .branch(
             Update::filter_message()
-                .filter_command::<Command>()
+                .filter_command::<Commands>()
                 .endpoint(functions::commands),
         )
         // Rest

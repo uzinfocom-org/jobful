@@ -3,13 +3,14 @@ pub mod check;
 pub mod contact;
 pub mod help;
 pub mod inline;
+pub mod publish;
 pub mod start;
 
 pub use inline::inline;
 use orzklv::telegram::topic::Topics;
 
 use crate::functions;
-use crate::{bot::Command, utils::resources::Resources};
+use crate::{bot::Commands, utils::resources::Resources};
 use std::error::Error;
 use teloxide::{dispatching::dialogue::GetChatId, prelude::*, types::*};
 
@@ -17,14 +18,16 @@ pub async fn commands(
     bot: Bot,
     me: Me,
     msg: Message,
-    cmd: Command,
+    cmd: Commands,
+    res: Resources,
 ) -> Result<(), Box<dyn Error + Send + Sync + 'static>> {
     let _ = match cmd {
-        Command::Start => functions::start::command(&bot, &msg).await,
-        Command::Help => functions::help::command(&bot, &msg, &cmd).await,
-        Command::About => functions::about::command(&bot, &msg).await,
-        Command::Contact => functions::contact::command(&bot, &msg).await,
-        Command::Check => functions::check::command(&bot, &msg).await,
+        Commands::Start => functions::start::command(&bot, &msg).await,
+        Commands::Help => functions::help::command(&bot, &msg, &cmd).await,
+        Commands::About => functions::about::command(&bot, &msg).await,
+        Commands::Contact => functions::contact::command(&bot, &msg).await,
+        Commands::Check => functions::check::command(&bot, &msg).await,
+        Commands::Publish => functions::publish::command(&bot, &msg, &res).await,
     };
 
     Ok(())

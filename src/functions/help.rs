@@ -1,4 +1,4 @@
-use crate::bot::Command;
+use crate::bot::Commands;
 use orzklv::telegram::{keyboard::Keyboard, topic::Topics};
 use teloxide::{
     payloads::SendMessageSetters,
@@ -11,9 +11,10 @@ static TEXT: &[(&str, &str)] = &[
     ("about", "shu bot haqida ko'proq"),
     ("contact", "HR mutaxassislar bilan ulanish"),
     ("check", "dasturchiga kerakli ma'lumotlar"),
+    ("publish", "berilgan habarni chop etish"),
 ];
 
-pub async fn command(bot: &Bot, msg: &Message, cmd: &Command) -> ResponseResult<()> {
+pub async fn command(bot: &Bot, msg: &Message, cmd: &Commands) -> ResponseResult<()> {
     let mut text = String::new();
 
     text.push_str("<b>Hozida faqat ushbu buyruqlar mavjud:</b>\n\n");
