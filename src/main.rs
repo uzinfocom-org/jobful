@@ -8,11 +8,9 @@ use jobful::{Cli, Commands};
 use std::error::Error;
 use std::sync::Arc;
 use std::sync::Mutex;
-use std::time::Duration;
 use teloxide::prelude::LoggingErrorHandler;
 use teloxide::update_listeners::webhooks;
 use teloxide::{dptree, Bot};
-use tokio_cron_scheduler::{Job, JobScheduler};
 
 /// # Welcome to our Jobful Telegram Bot
 ///
