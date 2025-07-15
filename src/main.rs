@@ -6,8 +6,6 @@ use jobful::error::beautiful_exit;
 use jobful::utils::resources::Resources;
 use jobful::{Cli, Commands};
 use std::error::Error;
-use std::sync::Arc;
-use std::sync::Mutex;
 use teloxide::prelude::LoggingErrorHandler;
 use teloxide::update_listeners::webhooks;
 use teloxide::{dptree, Bot};
@@ -38,8 +36,6 @@ use teloxide::{dptree, Bot};
 ///
 /// For further information about deploying your bot in your NixOS server, please, refer
 /// to readme.md.
-
-type Niggerlicious = Arc<Mutex<Resources>>;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
