@@ -1,6 +1,8 @@
 use owo_colors::OwoColorize;
 use thiserror::Error;
 
+/// An aliased Result type that sets second type parameter as
+/// this crate's Error type by default
 pub type Result<T> = std::result::Result<T, JobfulErrors>;
 
 #[derive(Debug, Error)]

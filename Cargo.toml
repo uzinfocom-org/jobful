@@ -12,14 +12,14 @@ authors = ["Sokhibjon Orzikulov <sakhib@orzklv.uz>"]
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 log = "0.4"
-orzklv = { version = "0.1.9", features = ["full"] }
+orzklv = { version = "0.2.3", features = ["full"] }
 owo-colors = { version = "4", features = ["supports-colors"] }
 pretty_env_logger = "0.5"
 reqwest = { version = "0.12", features = ["json"] }
 rust-fuzzy-search = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-teloxide = { version = "0.15", features = [
+teloxide = { version = "0.17", features = [
   "macros",
   "webhooks",
   "webhooks-axum",

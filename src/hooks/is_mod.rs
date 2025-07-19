@@ -40,7 +40,7 @@ pub async fn is_moderator(bot: &Bot, msg: &Message, res: &Resources) -> Response
 }
 
 #[macro_export]
-macro_rules! moderator {
+macro_rules! check_moderator {
     ($bot:expr, $msg:expr, $res:expr) => {
         use $crate::hooks::is_moderator;
 
@@ -50,6 +50,6 @@ macro_rules! moderator {
     };
 }
 
-pub use moderator;
+pub use check_moderator;
 
 use crate::utils::resources::Resources;

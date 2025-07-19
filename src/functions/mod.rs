@@ -33,6 +33,27 @@ pub async fn commands(
     Ok(())
 }
 
+pub async fn callback(
+    bot: Bot,
+    q: CallbackQuery,
+    resources: Resources,
+) -> Result<(), Box<dyn Error + Send + Sync>> {
+    if let Some(data) = q.data.clone() {
+        let mut args: Vec<&str> = if data.contains('_') {
+            data.split('_').collect()
+        } else {
+            vec![&data]
+        };
+
+        let _ = match args.remove(0) {
+            "publish" => publish::callback(&bot, &q, &resources).await,
+            _ => Ok(()),
+        };
+    }
+
+    Ok(())
+}
+
 pub async fn triggerer(
     bot: Bot,
     msg: Message,

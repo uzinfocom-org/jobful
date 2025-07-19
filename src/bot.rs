@@ -32,6 +32,8 @@ pub fn handler() -> UpdateHandler<Box<dyn std::error::Error + Send + Sync + 'sta
     dptree::entry()
         // Inline
         .branch(Update::filter_inline_query().endpoint(functions::inline))
+        // Callbacks
+        .branch(Update::filter_callback_query().endpoint(functions::callback))
         // Commands
         .branch(
             Update::filter_message()

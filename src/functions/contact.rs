@@ -1,4 +1,4 @@
-use crate::private;
+use crate::check_private;
 use orzklv::telegram::{keyboard::Keyboard, topic::Topics};
 use teloxide::{
     prelude::*,
@@ -12,7 +12,7 @@ Ushbu keltirilgan tugmalar orqali bizning HR mutaxassislarimiz bilan bog'lanishi
 "#;
 
 pub async fn command(bot: &Bot, msg: &Message) -> ResponseResult<()> {
-    private!(bot, msg);
+    check_private!(bot, msg);
 
     bot.send_message_tf(msg.chat.id, TEXT, msg)
         .parse_mode(ParseMode::Html)

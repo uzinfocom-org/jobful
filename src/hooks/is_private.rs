@@ -38,7 +38,7 @@ pub async fn is_private(bot: &Bot, msg: &Message) -> ResponseResult<bool> {
 }
 
 #[macro_export]
-macro_rules! private {
+macro_rules! check_private {
     ($bot:expr, $msg:expr) => {
         use $crate::hooks::is_private;
 
@@ -48,4 +48,4 @@ macro_rules! private {
     };
 }
 
-pub use private;
+pub use check_private;

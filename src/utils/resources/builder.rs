@@ -9,9 +9,10 @@ use teloxide::types::UserId;
 #[derive(Clone)]
 pub struct ResourcesBuilder {
     data: Option<Jobs>,
-    admins: Option<Vec<UserId>>,
+    admins: Vec<UserId>,
     client: Option<Client>,
     timestamp: Option<SystemTime>,
+    groups: Vec<Chat>,
 }
 
 impl Default for ResourcesBuilder {
@@ -19,13 +20,12 @@ impl Default for ResourcesBuilder {
         Self {
             timestamp: None,
             data: None,
-            admins: Some(
-                prelude::ADMINS
-                    .iter()
-                    .map(|a| UserId(a.parse().unwrap()))
-                    .collect(),
-            ),
+            admins: prelude::ADMINS
+                .iter()
+                .map(|a| UserId(a.parse().unwrap()))
+                .collect(),
             client: None,
+            groups: serde_json::from_str(prelude::GROUPS).unwrap_or(Vec::new()),
         }
     }
 }
@@ -41,6 +41,7 @@ impl ResourcesBuilder {
             admins: self.admins,
             client: Some(client),
             timestamp: self.timestamp,
+            groups: self.groups,
         })
     }
 
@@ -67,6 +68,7 @@ impl ResourcesBuilder {
             admins: self.admins,
             client: Some(client),
             timestamp: Some(SystemTime::now()),
+            groups: self.groups,
         })
     }
 
@@ -81,11 +83,6 @@ impl ResourcesBuilder {
             None => return Err(JobfulErrors::MissingDependency),
         };
 
-        let admins = match self.admins {
-            Some(c) => c,
-            None => return Err(JobfulErrors::MissingDependency),
-        };
-
         let timestamp = match self.timestamp {
             Some(t) => t,
             None => return Err(JobfulErrors::MissingDependency),
@@ -93,9 +90,10 @@ impl ResourcesBuilder {
 
         Ok(Resources {
             data,
-            admins,
             client,
             timestamp,
+            admins: self.admins,
+            groups: self.groups,
         })
     }
 }

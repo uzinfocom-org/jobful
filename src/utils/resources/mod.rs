@@ -1,14 +1,12 @@
-#![allow(unused_assignments)]
 pub mod builder;
 pub mod prelude;
-
-use std::time::SystemTime;
 
 use crate::{JobfulErrors, Result};
 use builder::ResourcesBuilder;
 use prelude::*;
 use reqwest::Client;
 use rust_fuzzy_search::fuzzy_search_sorted;
+use std::time::SystemTime;
 use teloxide::types::UserId;
 
 const BASE: &str = "https://uzinfocom.uz";
@@ -20,11 +18,16 @@ pub struct Resources {
     admins: Vec<UserId>,
     client: Client,
     timestamp: SystemTime,
+    groups: Vec<Chat>,
 }
 
 impl Resources {
     pub fn builder() -> ResourcesBuilder {
         ResourcesBuilder::default()
+    }
+
+    pub fn groups(&self) -> &Vec<Chat> {
+        &self.groups
     }
 
     fn get_titles(&self) -> Vec<&str> {
@@ -89,6 +92,7 @@ impl Resources {
             client: self.client,
             admins: self.admins,
             data: data.results,
+            groups: self.groups,
             timestamp: SystemTime::now(),
         };
 
